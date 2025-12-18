@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-// import Register from "./pages/Register";
+import Register from "./pages/Register";
 import AthleteDashboard from "./pages/AthleteDashboard.jsx";
 import CoachDashboard from "./pages/CoachDashboard";
 import CoachesList from "./pages/CoachesList";

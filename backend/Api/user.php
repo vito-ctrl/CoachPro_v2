@@ -1,0 +1,45 @@
+<?php
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST");
+header("Access-Control-Allow-Headers: Content-Type");
+
+require '../config/db.php';
+require '../models/User.php';
+
+$method = $_SERVER['REQUEST_METHOD'];
+
+if ($method === 'GET') {
+    $users = User::getAll($conn);
+    echo json_encode($users);
+    exit;
+}
+
+if ($method === 'POST') {
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $name = $data['name'] ?? null;
+    $email = $data['email'] ?? null;
+    $password = $data['password'] ?? null;
+    $role = $data['role'] ?? null;
+
+    if (!$name || !$email || !$password || !$role) {
+        http_response_code(400);
+        echo json_encode(["error" => "Missing fields"]);
+        exit;
+    }
+
+    $hashed = password_hash($password, PASSWORD_DEFAULT);
+
+    if (User::create($conn, $name, $email, $hashed, $role)) {
+        echo json_encode(["success" => true]);
+    } else {
+        http_response_code(500);
+        echo json_encode(["error" => "Could not create user"]);
+    }
+    exit;
+}
+
+http_response_code(405);
+echo json_encode(["error" => "Method not allowed"]);
+?>

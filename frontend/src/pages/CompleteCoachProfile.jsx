@@ -1,19 +1,27 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CompleteCoachProfile() {
+  const { id } = useParams();
   const [form, setForm] = useState({
+    user_id: Number(id),
     bio: "",
-    experience: "",
-    certification: "",
-    phone: ""
+    experience: 0,
+    phone: "",
+    photo: ""
   });
 
+  const Navigate = useNavigate();
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,11 +30,11 @@ function CompleteCoachProfile() {
 
     try {
       const res = await fetch(
-        "http://localhost/backend/api/coach-profile.php",
+        "http://localhost/backend/Api/compliteCoach.php",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form)
+          body: JSON.stringify({...form})
         }
       );
 
@@ -34,6 +42,8 @@ function CompleteCoachProfile() {
 
       if (!res.ok) {
         throw new Error(data.error || "Something went wrong");
+      }else{
+        Navigate('/coach')
       }
 
       alert("Profile completed successfully!");
@@ -77,18 +87,19 @@ function CompleteCoachProfile() {
 
           <input
             type="text"
-            name="certification"
-            placeholder="Certifications (optional)"
-            value={form.certification}
+            name="phone"
+            placeholder="Phone number"
+            value={form.phone}
             onChange={handleChange}
+            required
             className="w-full rounded-lg border border-gray-300 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <input
             type="text"
-            name="phone"
-            placeholder="Phone number"
-            value={form.phone}
+            name="photo"
+            placeholder="Photo"
+            value={form.photo}
             onChange={handleChange}
             required
             className="w-full rounded-lg border border-gray-300 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"

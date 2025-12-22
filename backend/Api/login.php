@@ -10,7 +10,7 @@
     }
 
     require_once __DIR__ . '/../config/db.php';
-    require_once __DIR__ . '/../models/User.php';
+    require_once __DIR__ . '/../models/login.php';
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         http_response_code(405);
@@ -29,7 +29,7 @@
         exit;
     }
 
-    $user = User::findByEmail($conn, $email);
+    $user = Login::findByEmail($conn, $email);
 
     if (!$user) {
         http_response_code(401);

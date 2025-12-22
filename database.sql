@@ -146,7 +146,6 @@ CREATE TABLE reviews (
 );
 
 
-
 -- USERS
 INSERT INTO users (role, name, email, password) VALUES
 ('client','Alice','alice@example.com','password1'),

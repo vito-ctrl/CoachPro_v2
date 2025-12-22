@@ -26,13 +26,15 @@ export default function Login() {
     })
     console.log(res);
     const data = await res.json()
-    console.log(data);
+    console.log("data:", data);
 
+    const id = data.user.id;
     // Fake login logic (redirect based on role)
     if (data.user.role === "athlete") {
       navigate("/athlete");
     } else if (data.user.role === "coach") {
-      navigate("/coach");
+      console.log("done");
+      navigate(`/compCoach/${id}`);
     }
   };
 

@@ -27,7 +27,7 @@ export default function Register() {
 
     setError("");
 
-    const res = await fetch('http://localhost/backend/Api/user.php', {
+    const res = await fetch('http://localhost/backend/Api/register.php', {
       method: "POST",
       headers: { "Content-Type": "application/json"},
       body: JSON.stringify({ name, email, password, role})

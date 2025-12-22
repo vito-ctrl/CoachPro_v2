@@ -10,12 +10,12 @@
     }
 
     require_once __DIR__ . '/../config/db.php';
-    require_once __DIR__ . '/../models/User.php';
+    require_once __DIR__ . '/../models/register.php';
 
     $method = $_SERVER['REQUEST_METHOD'];
 
     if ($method === 'GET') {
-        $users = User::getAll($conn);
+        $users = Register::getAll($conn);
         echo json_encode($users);
         exit;
     }
@@ -36,7 +36,7 @@
 
         $hashed = password_hash($password, PASSWORD_DEFAULT);
 
-        if (User::create($conn, $name, $email, $hashed, $role)) {
+        if (Register::create($conn, $name, $email, $hashed, $role)) {
             echo json_encode(["success" => true]);
         } else {
             http_response_code(500);

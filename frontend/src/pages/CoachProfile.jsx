@@ -1,10 +1,29 @@
 import Navbar from "../components/Navbar";
 import { coachProfiles } from "../data/fakeData";
 import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 
 export default function CoachProfile() {
   const { id } = useParams();
   const coach = coachProfiles.find((c) => c.id === parseInt(id));
+  const [coachdone, setCoachdone] = useState([]);
+
+  const alreadycomplite = async() => {
+    const res = await fetch("http://localhost/backend/Api/compliteCoach.php", {
+      method: "GET",
+      headers: {"Content-type":"Aplication/json"}
+    })
+
+    const data = await res.json();
+    console.log(data);
+
+    setCoachdone(data);
+  } 
+
+  useEffect(() => {
+    alreadycomplite()
+  }, []);
 
   if (!coach) {
     return (

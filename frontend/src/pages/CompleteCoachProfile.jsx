@@ -43,7 +43,7 @@ function CompleteCoachProfile() {
       if (!res.ok) {
         throw new Error(data.error || "Something went wrong");
       }else{
-        Navigate('/coach')
+        Navigate('/coaches')
       }
 
       alert("Profile completed successfully!");

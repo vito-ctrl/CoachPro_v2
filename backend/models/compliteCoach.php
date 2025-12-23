@@ -5,6 +5,7 @@
             $stmt = $conn->prepare(
                 "INSERT INTO coachProfile (user_id, bio, experience, phone, photo) VALUES (?, ?, ?, ?, ?)"
             );
+            
             $stmt->bind_param("isiss", $user_id, $bio, $experience, $phone, $photo);
             return $stmt->execute();
         }

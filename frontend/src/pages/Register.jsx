@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 export default function Register() {
-  const [name, setName] = useState("");
+  const [first_name, setFirst_name] = useState("");
+  const [last_name, setLast_name] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -14,7 +15,7 @@ export default function Register() {
   const fetchData = async (e) => {
     e.preventDefault();
 
-    if (!name || !email || !password || !confirmPassword) {
+    if (!first_name || !last_name || !email || !password || !confirmPassword) {
       setError("Please fill all fields");
       return;
     }
@@ -27,10 +28,10 @@ export default function Register() {
 
     setError("");
 
-    const res = await fetch('http://localhost/backend/Api/register.php', {
+    const res = await fetch('http://localhost/backend/pages/register.php', {
       method: "POST",
       headers: { "Content-Type": "application/json"},
-      body: JSON.stringify({ name, email, password, role})
+      body: JSON.stringify({first_name, last_name, email, password, role})
     })
 
     console.log(res);
@@ -43,14 +44,6 @@ export default function Register() {
       console.error(data.error);
     }
   }
-
-  // const handleError = (e) => {
-  //   e.preventDefault();
-
-    
-
-  //   navigate("/");
-  // };
 
   return (
     <>
@@ -67,10 +60,17 @@ export default function Register() {
           <form onSubmit={fetchData} className="space-y-4">
             <input
               type="text"
-              placeholder="Full Name"
+              placeholder="First Name"
               className="w-full p-3 border rounded"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={first_name}
+              onChange={(e) => setFirst_name(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Last Name"
+              className="w-full p-3 border rounded"
+              value={last_name}
+              onChange={(e) => setLast_name(e.target.value)}
             />
 
             <input

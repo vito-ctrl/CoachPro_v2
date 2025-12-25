@@ -10,36 +10,41 @@
     }
 
     require_once __DIR__ . '/../config/db.php';
-    require_once __DIR__ . '/../models/compliteCoach.php';
+    require_once __DIR__ . '/../classes/register.php';
+
+    $database = new Database();
+    $conn = $database->connect();
 
     $method = $_SERVER['REQUEST_METHOD'];
 
-    if($method === 'GET'){
-        $coach = compliteCoach::getAll($conn);
-        echo json_encode($coach);
+    if ($method === 'GET') {
+        $users = Register::getAll($conn);
+        echo json_encode($users);
         exit;
     }
 
     if ($method === 'POST') {
         $data = json_decode(file_get_contents("php://input"), true);
 
-        $user_id = $data['user_id'] ?? null;
-        $bio = $data['bio'] ?? null;
-        $experience = $data['experience'] ?? null;
-        $phone = $data['phone'] ?? null;
-        $photo = $data['photo'] ?? null;
+        $first_name = $data['first_name'] ?? null;
+        $last_name = $data['last_name'] ?? null;
+        $email = $data['email'] ?? null;
+        $password = $data['password'] ?? null;
+        $role = $data['role'] ?? null;
 
-        if (!$user_id || !$bio || !$experience || !$phone || !$photo) {
+        if (!$first_name || !$last_name || !$email || !$password || !$role) {
             http_response_code(400);
             echo json_encode(["error" => "Missing fields"]);
             exit;
         }
 
-        if (compliteCoach::complite($user_id, $bio, $experience, $phone, $photo)) {
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+
+        if (Register::create($conn, $first_name, $last_name, $email, $hashed, $role)) {
             echo json_encode(["success" => true]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => "Could not complete Coach"]);
+            echo json_encode(["error" => "Could not create user"]);
         }
         exit;
     }

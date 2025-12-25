@@ -19,7 +19,7 @@ export default function Login() {
 
     setError("");
 
-    const res = await fetch('http://localhost/backend/Api/login.php', {
+    const res = await fetch('http://localhost/backend/pages/login.php', {
       method: 'POST',
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({email, password})

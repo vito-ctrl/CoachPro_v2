@@ -159,3 +159,62 @@ SELECT coach_id, COUNT(coach_id) AS coach_seances FROM seances GROUP BY coach_id
 |        2 |             3 |
 +----------+---------------+
 2 rows in set (0.00 sec)
+
+-- 4 - nom, prénom
+SELECT users.nom, users.prenom FROM users  JOIN reservations ON users.id = reservations.sportif_id GROUP BY sportif_id LIMIT 3;
++--------+---------+
+| nom    | prenom  |
++--------+---------+
+| Saidi  | Amine   |
+| Lahcen | Rania   |
+| Fassi  | Othmane |
++--------+---------+
+3 rows in set (0.01 sec)
+
+-- 5 - nombre de réservations par mois
+SELECT sportif_id, COUNT(sportif_id) AS reservation_num FROM reservations GROUP BY
+sportif_id , MONTH(reserved_at), YEAR(reserved_at);
++------------+-----------------+
+| sportif_id | reservation_num |
++------------+-----------------+
+|          6 |               1 |
+|          7 |               1 |
+|          8 |               1 |
+|          9 |               1 |
+|          6 |               1 |
+|          7 |               1 |
+|         10 |               1 |
+|         11 |               1 |
++------------+-----------------+
+8 rows in set (0.00 sec)
+
+-- 6 - mois et année
+SELECT sportif_id, YEAR(reserved_at), MONTH(reserved_at) FROM reservations GROUP BY sportif_id, YEAR(reserved_at), MONTH(reserved_at)
+    -> ORDER BY sportif_id;
++------------+-------------------+--------------------+
+| sportif_id | YEAR(reserved_at) | MONTH(reserved_at) |
++------------+-------------------+--------------------+
+|          6 |              2025 |                  1 |
+|          6 |              2025 |                  2 |
+|          7 |              2025 |                  1 |
+|          7 |              2025 |                  2 |
+|          8 |              2025 |                  2 |
+|          9 |              2025 |                  2 |
+|         10 |              2025 |                  1 |
+|         11 |              2025 |                  1 |
++------------+-------------------+--------------------+
+8 rows in set (0.00 sec)
+
+-- 7 - ordre décroissant par nombre de réservations
+SELECT sportif_id FROM reservations GROUP BY sportif_id ORDER BY sportif_id DESC;
++------------+
+| sportif_id |
++------------+
+|         11 |
+|         10 |
+|          9 |
+|          8 |
+|          7 |
+|          6 |
++------------+
+6 rows in set (0.00 sec)

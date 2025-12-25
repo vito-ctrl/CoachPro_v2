@@ -10,37 +10,41 @@
     }
 
     require_once __DIR__ . '/../config/db.php';
-    require_once __DIR__ . '/../models/register.php';
+    require_once __DIR__ . '/../classes/Reservation.php';
+
+    $database = new Database();
+    $conn = $database->connect();
 
     $method = $_SERVER['REQUEST_METHOD'];
 
-    if ($method === 'GET') {
-        $users = Register::getAll($conn);
-        echo json_encode($users);
+    if($method === 'GET'){
+        $reservation = Bookings::getAll($conn);
+        echo json_encode($reservation);
         exit;
     }
 
-    if ($method === 'POST') {
+    if ($method == 'POST') {
         $data = json_decode(file_get_contents("php://input"), true);
 
-        $name = $data['name'] ?? null;
-        $email = $data['email'] ?? null;
-        $password = $data['password'] ?? null;
-        $role = $data['role'] ?? null;
+        $session_id = $data['session_id'] ?? null;
+        $user_id = $data['user_id'] ?? null;
 
-        if (!$name || !$email || !$password || !$role) {
+        if(!$session_id || !$user_id){
             http_response_code(400);
             echo json_encode(["error" => "Missing fields"]);
             exit;
         }
 
-        $hashed = password_hash($password, PASSWORD_DEFAULT);
+        $newReservation = Bookings::create($conn, $session_id, $user_id);
 
-        if (Register::create($conn, $name, $email, $hashed, $role)) {
-            echo json_encode(["success" => true]);
+        if ($newReservation) {
+            echo json_encode([
+                "success" => true,
+                "booking_id" => $newReservation
+            ]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => "Could not create user"]);
+            echo json_encode(["error" => "Could not complete reservation"]);
         }
         exit;
     }

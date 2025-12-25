@@ -1,13 +1,21 @@
 <?php
-$host = "localhost";
-$username = "vito";
-$password = "vito123456789";
-$dbname = "coachPro";
+    class Database {
+        private $host = "localhost";
+        private $dbname = "CoachPro";
+        private $username = "vito";
+        private $password = "vito123456789";
 
-$conn = new mysqli($host, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Database connection failed: " . $conn->connect_error);
-}
-
-$conn->set_charset("utf8mb4");
+        public function connect() {
+            try {
+                return new PDO(
+                    "mysql:host={$this->host};dbname={$this->dbname};charset=utf8mb4",
+                    $this->username,
+                    $this->password,
+                    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+                );
+            } catch (PDOException $e) {
+                die("DB Error: " . $e->getMessage());
+            }
+        }
+    }
+?>

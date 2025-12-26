@@ -17,25 +17,30 @@ class CompleteCoach {
                 ':photo' => $photo
             ]);
 
-            $coach_id = $conn->lastInsertId();
+            // $coach_id = $conn->lastInsertId();
 
             $stmtSport = $conn->prepare(
-                "INSERT INTO coach_sports (coach_id, sport_id) VALUES (:coach_id, :sport_id)"
+                "INSERT INTO coach_sports (user_id, sport_id) VALUES (:user_id, :sport_id)"
             );
 
             foreach($sports_ids as $sport_id){
                 $stmtSport->execute([
-                    ':coach_id' => $coach_id,
-                    ':sport_id' => $sport_id
+                    ':user_id' => $user_id,
+                    ':sport_id' => (int)$sport_id
                 ]);
             }
 
             $conn->commit();
-            return $coach_id; 
+            return $user_id; 
         } catch (PDOException $e) {
             $conn->rollBack();
-            return false;
+            error_log($e->getMessage());
+            echo json_encode([
+                "sql_error" => $e->getMessage()
+            ]);
+            exit;
         }
+
     }
 
     public static function getAll($conn){

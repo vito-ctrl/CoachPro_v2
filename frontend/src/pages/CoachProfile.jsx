@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import { coachProfiles } from "../data/fakeData";
+// import { coachProfiles } from "../data/fakeData";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 

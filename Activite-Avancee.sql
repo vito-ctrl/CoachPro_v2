@@ -218,3 +218,24 @@ SELECT sportif_id FROM reservations GROUP BY sportif_id ORDER BY sportif_id DESC
 |          6 |
 +------------+
 6 rows in set (0.00 sec)
+
+-- 8 - afficher coach, date, heure début, heure fin, id séance
+SELECT users.nom, users.prenom, seances.date_seance, seances.heure, ADDTIME(seances.heure, SEC_TO_TIME(seances.duree * 60)) AS heure_fin
+ FROM users JOIN seances ON users.id = seances.coach_id;
++-----------+---------+-------------+----------+-----------+
+| nom       | prenom  | date_seance | heure    | heure_fin |
++-----------+---------+-------------+----------+-----------+
+| El Amrani | Youssef | 2025-01-10  | 10:00:00 | 11:00:00  |
+| El Amrani | Youssef | 2025-01-11  | 11:00:00 | 12:30:00  |
+| El Amrani | Youssef | 2025-01-12  | 10:30:00 | 11:30:00  |
+| Benali    | Sara    | 2025-02-05  | 09:00:00 | 10:00:00  |
+| Benali    | Sara    | 2025-02-06  | 09:30:00 | 10:30:00  |
+| Benali    | Sara    | 2025-02-07  | 10:00:00 | 11:00:00  |
+| Haddad    | Karim   | 2025-03-01  | 14:00:00 | 15:30:00  |
+| Haddad    | Karim   | 2025-03-01  | 15:00:00 | 16:00:00  |
+| Ait Ali   | Nadia   | 2024-11-01  | 08:00:00 | 09:00:00  |
+| Raji      | Omar    | 2025-01-20  | 18:00:00 | 20:00:00  |
+| Raji      | Omar    | 2025-01-22  | 18:00:00 | 20:00:00  |
++-----------+---------+-------------+----------+-----------+
+11 rows in set (0.00 sec)
+

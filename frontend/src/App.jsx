@@ -5,6 +5,7 @@ import CoachesList from "./pages/CoachesList";
 import CoachProfile from "./pages/CoachProfile";
 import CompleteCoachProfile from "./pages/CompleteCoachProfile.jsx";
 import Seance from "./pages/seance.jsx";
+import Reservation from "./pages/Reservation.jsx";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <Route path="/coach/:id" element={<CoachProfile />} />
       <Route path="/compCoach/:id" element={<CompleteCoachProfile />} />
       <Route path="/seance" element={<Seance/>}/>
+      <Route path="/Reservetion" element={<Reservation/>}/>
     </Routes>
   );
 }
